@@ -13,6 +13,9 @@
     <meta property="og:url" content="https://hellomedia.us/marketing-tools/helloclickybttns-button-maker">
     <meta name="twitter:card" content="summary_large_image">
     
+    <!-- Fix for Google API Referrer Check -->
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    
     <!-- Favicon -->
     <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🔘</text></svg>">
 
@@ -38,6 +41,7 @@
             margin-bottom: 30px;
         }
         
+        /* Main Title Box (HelloMedia.us) */
         .title-box {
             display: inline-block;
             margin-bottom: 20px; 
@@ -59,6 +63,7 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.05);
         }
         
+        /* H1 Styling */
         h1 { 
             margin: 0 0 10px 0; 
             letter-spacing: -1px; 
@@ -67,9 +72,12 @@
         }
         
         .brand-highlight { color: #007aff; }
+
         p { color: #666; margin: 0; line-height: 1.5; }
+        
         .use-cases { font-size: 14px; color: #888; margin-top: 8px; }
 
+        /* Canvas Preview Area */
         .preview-area {
             margin-bottom: 30px;
             width: 100%;
@@ -93,6 +101,7 @@
             -webkit-user-select: none;
         }
         
+        /* Toolbar Styles */
         .geometry-stack {
             display: flex;
             flex-direction: column;
@@ -167,6 +176,7 @@
             text-align: center;
         }
 
+        /* Controls */
         .controls {
             background: white;
             padding: 30px;
@@ -201,6 +211,7 @@
             transition: border-color 0.2s;
             font-family: inherit;
             width: 100%;
+            /* Allow selection in input even if body is user-select:none */
             user-select: text;
             -webkit-user-select: text;
         }
@@ -279,8 +290,8 @@
         .btn-primary { 
             background-color: #111; 
             color: white; 
-            flex-shrink: 0; 
-            white-space: nowrap; 
+            flex-shrink: 0; /* Keeps it from shrinking next to input */
+            white-space: nowrap; /* Prevents text wrap */
         }
         .btn-primary:hover { background-color: #000; transform: translateY(-1px); }
 
@@ -288,13 +299,48 @@
         .btn-magic:hover { opacity: 0.95; }
         .btn-magic:disabled { opacity: 0.6; cursor: wait; }
 
-        .ai-panel { background: #f0f7ff; border-radius: 16px; padding: 20px; border: 1px solid #cce4ff; position: relative; transition: opacity 0.3s, filter 0.3s; }
-        .ai-panel.locked-teaser { opacity: 0.5; filter: grayscale(0.8); }
-        .ai-click-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 10; cursor: pointer; display: none; align-items: center; justify-content: center; }
-        .ai-panel.locked-teaser .ai-click-overlay { display: flex; }
-        .lock-indicator { background: #333; color: white; padding: 8px 16px; border-radius: 20px; font-size: 12px; font-weight: 700; box-shadow: 0 4px 10px rgba(0,0,0,0.2); opacity: 0; transition: opacity 0.2s; transform: translateY(10px); }
-        .ai-panel.locked-teaser:hover .lock-indicator { opacity: 1; transform: translateY(0); }
+        /* AI Panel & Teaser Overlay */
+        .ai-panel { 
+            background: #f0f7ff; 
+            border-radius: 16px; 
+            padding: 20px; 
+            border: 1px solid #cce4ff; 
+            position: relative;
+            transition: opacity 0.3s, filter 0.3s;
+        }
         
+        /* Grayed out state */
+        .ai-panel.locked-teaser {
+            opacity: 0.5;
+            filter: grayscale(0.8);
+        }
+        
+        .ai-click-overlay {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 10;
+            cursor: pointer;
+            display: none; /* Hidden by default */
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .ai-panel.locked-teaser .ai-click-overlay {
+            display: flex;
+        }
+        
+        .lock-indicator {
+            background: #333; color: white; padding: 8px 16px; 
+            border-radius: 20px; font-size: 12px; font-weight: 700;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            opacity: 0; transition: opacity 0.2s;
+            transform: translateY(10px);
+        }
+        
+        .ai-panel.locked-teaser:hover .lock-indicator {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
         .suggestions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; margin-top: 15px; }
         .chip {
             background: white; border: 1px solid #e1e4e8; border-radius: 12px; padding: 10px; font-size: 13px; color: #444;
@@ -306,14 +352,18 @@
         /* --- SLEEK DARK OVERLAY --- */
         .modal-overlay {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: rgba(0,0,0,0.85); z-index: 2000;
+            background: rgba(0,0,0,0.85); /* Dark background */
+            z-index: 2000;
             display: none; justify-content: center; align-items: center;
-            backdrop-filter: blur(8px);
+            backdrop-filter: blur(8px); /* Strong blur */
         }
         .modal-card {
-            background: white; width: 90%; max-width: 480px; padding: 40px; border-radius: 24px;
-            box-shadow: 0 25px 80px rgba(0,0,0,0.5); text-align: center;
-            animation: slideUp 0.4s cubic-bezier(0.19, 1, 0.22, 1); position: relative;
+            background: white; width: 90%; max-width: 480px;
+            padding: 40px; border-radius: 24px;
+            box-shadow: 0 25px 80px rgba(0,0,0,0.5);
+            text-align: center;
+            animation: slideUp 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            position: relative;
         }
         @keyframes slideUp { from { transform: translateY(40px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
         
@@ -321,30 +371,61 @@
         .modal-title { font-size: 26px; margin-bottom: 12px; font-weight: 800; color: #111; letter-spacing: -0.5px; }
         .modal-text { color: #555; margin-bottom: 30px; line-height: 1.6; font-size: 16px; }
         
-        .close-btn-x { position: absolute; top: 15px; right: 15px; background: none; border: none; font-size: 24px; color: #aaa; cursor: pointer; line-height: 1; padding: 5px; transition: color 0.2s; }
+        /* Close Button X */
+        .close-btn-x {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: #aaa;
+            cursor: pointer;
+            line-height: 1;
+            padding: 5px;
+            transition: color 0.2s;
+        }
         .close-btn-x:hover { color: #333; }
         
         .modal-form input {
-            width: 100%; padding: 16px; border: 2px solid #eee; border-radius: 12px; font-size: 16px; box-sizing: border-box; margin-bottom: 15px;
-            background: #f9f9f9; transition: all 0.2s; user-select: text; -webkit-user-select: text;
+            width: 100%; padding: 16px; border: 2px solid #eee;
+            border-radius: 12px; font-size: 16px; box-sizing: border-box; margin-bottom: 15px;
+            background: #f9f9f9; transition: all 0.2s;
+            /* Allow text selection in modal input */
+            user-select: text;
+            -webkit-user-select: text;
         }
         .modal-form input:focus { border-color: #007aff; background: white; outline: none; }
         
         .btn-unlock {
-            background: linear-gradient(135deg, #007aff 0%, #0056b3 100%); color: white; width: 100%; padding: 16px;
+            background: linear-gradient(135deg, #007aff 0%, #0056b3 100%); 
+            color: white; width: 100%; padding: 16px;
             border: none; border-radius: 12px; font-size: 16px; font-weight: 700; cursor: pointer;
-            box-shadow: 0 4px 12px rgba(0,122,255,0.3); transition: transform 0.2s;
+            box-shadow: 0 4px 12px rgba(0,122,255,0.3);
+            transition: transform 0.2s;
         }
         .btn-unlock:hover { transform: translateY(-2px); }
         
-        .btn-skip { background: transparent; border: none; color: #777; margin-top: 20px; font-size: 14px; cursor: pointer; font-weight: 500; transition: color 0.2s; }
+        .btn-skip {
+            background: transparent; border: none; color: #777;
+            margin-top: 20px; font-size: 14px; cursor: pointer; 
+            font-weight: 500; transition: color 0.2s;
+        }
         .btn-skip:hover { color: #333; text-decoration: underline; }
         
-        .footer-links { margin-top: 40px; font-size: 12px; color: #aaa; }
+        /* Footer/Privacy Links */
+        .footer-links {
+            margin-top: 40px;
+            font-size: 12px;
+            color: #aaa;
+        }
         .footer-links a { color: #aaa; text-decoration: none; margin: 0 8px; }
         .footer-links a:hover { text-decoration: underline; color: #666; }
         
-        .limit-badge { background: #eee; color: #555; font-size: 11px; padding: 4px 8px; border-radius: 4px; display: inline-block; margin-top: 5px; }
+        .limit-badge {
+            background: #eee; color: #555; font-size: 11px; padding: 4px 8px;
+            border-radius: 4px; display: inline-block; margin-top: 5px;
+        }
     </style>
 </head>
 <body>
@@ -359,6 +440,7 @@
     </div>
 
     <div class="preview-area">
+        <!-- Prevent Right Click on Canvas to force Download Button usage -->
         <canvas id="buttonCanvas" oncontextmenu="return preventRightClick(event)"></canvas>
         
         <div class="geometry-stack">
@@ -382,14 +464,20 @@
     </div>
     
     <div class="controls">
+        <!-- CONTENT: Download Button Next to Input -->
         <div>
             <label class="section-title">Button Text</label>
             <div class="input-group">
+                <!-- UPDATED DEFAULT TEXT -->
                 <input type="text" id="btnText" value="Edit Button Text Below" oninput="drawButton()" placeholder="Button text...">
-                <button class="btn btn-primary" onclick="checkDownload()">Download Button</button>
+                <!-- This calls checkDownload() -->
+                <button class="btn btn-primary" onclick="checkDownload()">
+                    Download Button
+                </button>
             </div>
         </div>
 
+        <!-- STYLE STUDIO -->
         <div>
             <label class="section-title">Color Themes</label>
             <div class="presets" id="themeContainer"></div>
@@ -406,7 +494,9 @@
             </div>
         </div>
 
+        <!-- AI GENERATOR (Teaser Mode Implemented Here) -->
         <div class="ai-panel" id="aiPanel">
+            <!-- Overlay that appears when locked to intercept clicks -->
             <div class="ai-click-overlay" onclick="triggerGate('ai')">
                 <div class="lock-indicator">🔒 Unlock Writing Helper</div>
             </div>
@@ -422,31 +512,58 @@
             <div id="suggestionsArea" class="suggestions-grid"></div>
         </div>
 
+        <!-- FOOTER LINKS -->
         <div class="footer-links" style="text-align: center;">
             <a href="https://hellomedia.us/privacy" target="_blank">Privacy Policy</a> • 
             <a href="https://hellomedia.us" target="_blank">HelloMedia.us</a>
         </div>
     </div>
 
+    <!-- SLEEK FULL SCREEN MODAL -->
     <div id="limitModal" class="modal-overlay">
         <div class="modal-card">
+            <!-- Close Button -->
             <button class="close-btn-x" onclick="closeModal()">×</button>
             <span class="modal-icon">✨</span>
             <div class="modal-title">Unlock Unlimited Power</div>
             <p class="modal-text" id="modalMessage">You've reached the free limit. Enter your email to remove the watermark and unlock the Writing Helper forever.</p>
+            
+            <!-- FORM FOR EMAIL CAPTURE -->
             <form class="modal-form" onsubmit="unlockPremium(event)">
                 <input type="email" id="emailInput" placeholder="name@example.com" required>
                 <button type="submit" class="btn-unlock">Unlock Everything</button>
             </form>
+            
             <button id="skipBtn" class="btn-skip" onclick="skipToWatermark()">No thanks, I'll keep the watermark</button>
         </div>
     </div>
 
     <script>
+        // Wrap everything in an IIFE to keep variables out of global scope (anti-rip)
         (function() {
-            document.addEventListener('contextmenu', function(e) { e.preventDefault(); });
+            // Anti-Rip: Disable Right Click globally
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+            // Anti-Rip: Disable common keyboard shortcuts
             document.addEventListener('keydown', function(e) {
-                if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && (e.key === 'I' || e.key === 'J')) || (e.ctrlKey && e.key === 'u')) { e.preventDefault(); }
+                // F12
+                if (e.key === 'F12') {
+                    e.preventDefault();
+                }
+                // Ctrl+Shift+I (Inspect)
+                if (e.ctrlKey && e.shiftKey && e.key === 'I') {
+                    e.preventDefault();
+                }
+                // Ctrl+Shift+J (Console)
+                if (e.ctrlKey && e.shiftKey && e.key === 'J') {
+                    e.preventDefault();
+                }
+                // Ctrl+U (View Source)
+                if (e.ctrlKey && e.key === 'u') {
+                    e.preventDefault();
+                }
             });
 
             const canvas = document.getElementById('buttonCanvas');
@@ -462,33 +579,196 @@
             const API_ENDPOINT = "https://hellomedia.us/api/generate-text"; 
             const WEBHOOK_URL = ""; 
 
-            let currentWidth = 600; let currentHeight = 120; let currentFontSize = 36; let shapeType = 'rounded'; 
+            // --- STATE ---
+            // REVERTED DEFAULT WIDTH to 600
+            let currentWidth = 600;
+            let currentHeight = 120;
+            let currentFontSize = 36; 
+            let shapeType = 'rounded'; 
             
+            // --- MONETIZATION STATE ---
             const FREE_LIMIT = 3; 
-            const AI_LIMIT = 3;
             const INTERACTION_LIMIT = 100; 
             
             let usageCount = parseInt(localStorage.getItem('hcb_usage') || '0');
-            let aiUsageCount = parseInt(localStorage.getItem('hcb_ai_usage') || '0');
             let interactionCount = parseInt(localStorage.getItem('hcb_interactions') || '0');
             let isPremium = localStorage.getItem('hcb_premium') === 'true';
             
+            let aiUsageCount = parseInt(localStorage.getItem('hcb_ai_usage') || '0');
+            const AI_LIMIT = 3;
             let lastGenTime = 0;
 
-            const themes = [{ name: 'Classic Blue', bg: '#007aff', text: '#ffffff' }, { name: 'Midnight', bg: '#000000', text: '#ffffff' }, { name: 'Clean', bg: '#ffffff', text: '#000000' }, { name: 'Forest', bg: '#2d6a4f', text: '#d8f3dc' }, { name: 'Sunset', bg: '#e76f51', text: '#ffffff' }, { name: 'Berry', bg: '#8338ec', text: '#ffffff' }, { name: 'Neon', bg: '#ccff33', text: '#000000' }, { name: 'Coral', bg: '#ff6b6b', text: '#ffffff' }];
+            const apiKey = ""; 
 
-            // --- INIT ---
-            // IMPORTANT: Initialize immediately
-            function init() {
-                renderThemes();
-                // Initial draw (don't count as interaction)
-                window.drawButton(false);
-                updateLockUI();
+            // --- PRESET THEMES ---
+            const themes = [
+                { name: 'Classic Blue', bg: '#007aff', text: '#ffffff' },
+                { name: 'Midnight', bg: '#000000', text: '#ffffff' },
+                { name: 'Clean', bg: '#ffffff', text: '#000000' }, 
+                { name: 'Forest', bg: '#2d6a4f', text: '#d8f3dc' },
+                { name: 'Sunset', bg: '#e76f51', text: '#ffffff' },
+                { name: 'Berry', bg: '#8338ec', text: '#ffffff' },
+                { name: 'Neon', bg: '#ccff33', text: '#000000' },
+                { name: 'Coral', bg: '#ff6b6b', text: '#ffffff' }
+            ];
+
+            // Local Helper: Apply Watermark Logic
+            function applyWatermarkToCanvas() {
+                ctx.save();
+                ctx.globalAlpha = 0.5;
+                ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
+                ctx.shadowColor = "rgba(0, 0, 0, 0.3)";
+                ctx.shadowBlur = 2;
+                
+                let wmSize = Math.max(10, Math.floor(currentHeight * 0.15));
+                ctx.font = `bold ${wmSize}px sans-serif`;
+                
+                const wmText = "HelloMedia.us";
+                let rightOffset = 10;
+                let bottomOffset = 5;
+
+                if (shapeType === 'pill') {
+                    const radius = currentHeight / 2;
+                    rightOffset = Math.max(10, radius * 0.4); 
+                }
+
+                let textWidth = ctx.measureText(wmText).width;
+                const maxWmWidth = currentWidth - (rightOffset + 20); 
+                
+                if (textWidth > maxWmWidth) {
+                    const ratio = maxWmWidth / textWidth;
+                    wmSize = Math.floor(wmSize * ratio);
+                    ctx.font = `bold ${wmSize}px sans-serif`;
+                }
+
+                ctx.textAlign = "right";
+                ctx.textBaseline = "bottom";
+                ctx.fillText(wmText, currentWidth - rightOffset, currentHeight - bottomOffset);
+                ctx.restore();
             }
+
+            // Local Helper: Update Locked State UI
+            function updateLockUI() {
+                const isLocked = (usageCount >= FREE_LIMIT || interactionCount >= INTERACTION_LIMIT) && !isPremium;
+                
+                if (isLocked) {
+                    aiPanel.classList.add('locked-teaser');
+                    document.getElementById('aiLockBadge').style.display = 'inline-block';
+                } else {
+                    aiPanel.classList.remove('locked-teaser');
+                    document.getElementById('aiLockBadge').style.display = 'none';
+                }
+            }
+
+            // Local Helper: Trigger Gate Modal
+            function triggerGate(source) {
+                if (source === 'ai') {
+                    document.getElementById('modalMessage').textContent = "The Writing Helper is a premium feature. Enter your email to unlock it instantly.";
+                    document.getElementById('skipBtn').style.display = 'none'; 
+                    document.getElementById('limitModal').style.display = 'flex';
+                }
+            }
+            
+            // Local Helper: Check Throttle
+            function checkThrottleAndRun() {
+                const now = Date.now();
+                if (now - lastGenTime < 10000) { 
+                    alert("Please wait 10 seconds between generations to prevent API overload.");
+                    return;
+                }
+                lastGenTime = now;
+                generateIdeas();
+            }
+
+            // Local Helper: Complete Unlock
+            function completeUnlock() {
+                isPremium = true;
+                localStorage.setItem('hcb_premium', 'true');
+                document.getElementById('limitModal').style.display = 'none';
+                updateLockUI();
+                alert("Thanks! You have unlocked unlimited access.");
+                window.drawButton(); 
+            }
+            
+            // Local Helper: Render Themes
+            function renderThemes() {
+                const container = document.getElementById('themeContainer');
+                themes.forEach(t => {
+                    const btn = document.createElement('div');
+                    btn.className = 'theme-btn';
+                    btn.style.backgroundColor = t.bg;
+                    btn.style.color = t.text;
+                    btn.title = t.name;
+                    btn.onclick = () => applyTheme(t.bg, t.text);
+                    container.appendChild(btn);
+                });
+            }
+
+            // Local Helper: Apply Theme
+            function applyTheme(bg, text) {
+                bgColorPicker.value = bg; 
+                textColorPicker.value = text;
+                window.drawButton();
+            }
+
+            // Local Helper: Generate Ideas (Async)
+            async function generateIdeas() {
+                const promptText = document.getElementById('aiPrompt').value.trim();
+                const status = document.getElementById('statusMsg');
+                const area = document.getElementById('suggestionsArea');
+                const btn = document.querySelector('.btn-magic');
+
+                if (!promptText) {
+                    status.textContent = "Please enter a description first.";
+                    return;
+                }
+
+                status.textContent = "Brainstorming...";
+                status.style.color = "#666";
+                area.innerHTML = '';
+                btn.disabled = true;
+
+                try {
+                    // Call the Cloudflare Worker Endpoint
+                    const response = await fetch(API_ENDPOINT, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+                    });
+
+                    if (!response.ok) throw new Error("API Error");
+                    const data = await response.json();
+                    
+                    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                    if (text) {
+                        const ideas = text.split('\n').filter(line => line.trim().length > 0);
+                        ideas.forEach(idea => {
+                            const cleanIdea = idea.replace(/^\d+[\.\)]\s*/, '').trim();
+                            const el = document.createElement('div');
+                            el.className = 'chip';
+                            el.textContent = cleanIdea;
+                            el.onclick = () => { input.value = cleanIdea; window.drawButton(); };
+                            area.appendChild(el);
+                        });
+                        status.textContent = "Click a suggestion to apply it!";
+                        status.style.color = "#2d6a4f";
+                    }
+                } catch (err) {
+                    console.error(err);
+                    status.textContent = "Could not generate ideas. Try again.";
+                    status.style.color = "#d93025";
+                } finally {
+                    btn.disabled = false;
+                }
+            }
+
+
+            // --- EXPOSED GLOBAL FUNCTIONS ---
 
             window.preventRightClick = function(e) {
                 e.preventDefault();
-                alert("Please use the 'Download Button' below to save your button!");
+                alert("Please use the 'Download Button' below to save your button! \n(This ensures you get the correct file format)");
                 return false;
             }
 
@@ -647,143 +927,16 @@
             
             window.closeModal = function() { document.getElementById('limitModal').style.display = 'none'; }
 
-            function updateLockUI() {
-                const isAiLocked = (aiUsageCount >= AI_LIMIT || interactionCount >= INTERACTION_LIMIT) && !isPremium;
-                if (isAiLocked) {
-                    aiPanel.classList.add('locked-teaser');
-                    document.getElementById('aiLockBadge').style.display = 'inline-block';
-                } else {
-                    aiPanel.classList.remove('locked-teaser');
-                    document.getElementById('aiLockBadge').style.display = 'none';
-                }
-            }
-
-            function applyWatermarkToCanvas() {
-                ctx.save(); ctx.globalAlpha = 0.5; ctx.fillStyle = "rgba(255, 255, 255, 0.9)";
-                ctx.shadowColor = "rgba(0, 0, 0, 0.3)"; ctx.shadowBlur = 2;
-                
-                let wmSize = Math.max(10, Math.floor(currentHeight * 0.15));
-                ctx.font = `bold ${wmSize}px sans-serif`;
-                
-                const wmText = "HelloMedia.us";
-                let rightOffset = 10; let bottomOffset = 5;
-                if (shapeType === 'pill') { rightOffset = Math.max(10, (currentHeight / 2) * 0.4); }
-
-                let textWidth = ctx.measureText(wmText).width;
-                const maxWmWidth = currentWidth - (rightOffset + 20); 
-                if (textWidth > maxWmWidth) {
-                    const ratio = maxWmWidth / textWidth; wmSize = Math.floor(wmSize * ratio);
-                    ctx.font = `bold ${wmSize}px sans-serif`;
-                }
-
-                ctx.textAlign = "right"; ctx.textBaseline = "bottom";
-                ctx.fillText(wmText, currentWidth - rightOffset, currentHeight - bottomOffset);
-                ctx.restore();
-            }
-
-            function performDownload(addWatermark) {
-                if (!addWatermark) {
-                    canvas.width = currentWidth; canvas.height = currentHeight;
-                    ctx.clearRect(0, 0, currentWidth, currentHeight);
-                    let radius = 0;
-                    if (shapeType === 'rounded') radius = (currentHeight < 120) ? 15 : 30; 
-                    if (shapeType === 'pill') radius = currentHeight / 2;
-                    ctx.fillStyle = bgColorPicker.value;
-                    ctx.beginPath();
-                    ctx.moveTo(radius, 0); ctx.lineTo(currentWidth - radius, 0);
-                    ctx.quadraticCurveTo(currentWidth, 0, currentWidth, radius);
-                    ctx.lineTo(currentWidth, currentHeight - radius);
-                    ctx.quadraticCurveTo(currentWidth, currentHeight, currentWidth - radius, currentHeight);
-                    ctx.lineTo(radius, currentHeight);
-                    ctx.quadraticCurveTo(0, currentHeight, 0, currentHeight - radius);
-                    ctx.lineTo(0, radius);
-                    ctx.quadraticCurveTo(0, 0, radius, 0);
-                    ctx.closePath(); ctx.fill();
-
-                    ctx.fillStyle = textColorPicker.value;
-                    const maxTextWidth = currentWidth * 0.85; 
-                    let calculatedFontSize = currentFontSize;
-                    ctx.font = `bold ${calculatedFontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI Emoji', 'Apple Color Emoji', 'Segoe UI', Roboto, sans-serif`;
-                    const textWidth = ctx.measureText(input.value).width;
-                    if (textWidth > maxTextWidth) {
-                        const ratio = maxTextWidth / textWidth;
-                        calculatedFontSize = Math.floor(calculatedFontSize * ratio);
-                        if (calculatedFontSize < 8) calculatedFontSize = 8;
-                    }
-                    ctx.font = `bold ${calculatedFontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI Emoji', 'Apple Color Emoji', 'Segoe UI', Roboto, sans-serif`;
-                    ctx.textAlign = "center"; ctx.textBaseline = "middle";
-                    ctx.fillText(input.value, currentWidth / 2, currentHeight / 2);
-                } else {
-                    window.drawButton(); 
-                }
-
-                const link = document.createElement('a');
-                link.download = `HelloClickyBttns-HelloMedia.us-${Date.now()}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-                setTimeout(window.drawButton, 500);
-            }
-
-            function applyTheme(bg, text) { bgColorPicker.value = bg; textColorPicker.value = text; window.drawButton(); }
-            function renderThemes() {
-                const container = document.getElementById('themeContainer');
-                themes.forEach(t => {
-                    const btn = document.createElement('div');
-                    btn.className = 'theme-btn';
-                    btn.style.backgroundColor = t.bg;
-                    btn.style.color = t.text;
-                    btn.title = t.name;
-                    btn.onclick = () => applyTheme(t.bg, t.text);
-                    container.appendChild(btn);
-                });
+            // --- INIT ---
+            function init() {
+                renderThemes();
+                // Initial draw without counting as interaction
+                window.drawButton(false);
+                updateLockUI();
             }
             
-            // --- PROXY GENERATION FUNCTION ---
-            async function generateIdeas() {
-                const promptText = document.getElementById('aiPrompt').value.trim();
-                const status = document.getElementById('statusMsg');
-                const area = document.getElementById('suggestionsArea');
-                const btn = document.querySelector('.btn-magic');
-
-                if (!promptText) { status.textContent = "Please enter a description first."; return; }
-                status.textContent = "Brainstorming..."; status.style.color = "#666"; area.innerHTML = ''; btn.disabled = true;
-
-                try {
-                    // Call the Cloudflare Worker Endpoint
-                    const response = await fetch(API_ENDPOINT, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
-                    });
-
-                    if (!response.ok) throw new Error("API Error");
-                    const data = await response.json();
-                    
-                    const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
-
-                    if (text) {
-                        const ideas = text.split('\n').filter(line => line.trim().length > 0);
-                        ideas.forEach(idea => {
-                            const cleanIdea = idea.replace(/^\d+[\.\)]\s*/, '').trim();
-                            const el = document.createElement('div');
-                            el.className = 'chip';
-                            el.textContent = cleanIdea;
-                            el.onclick = () => { input.value = cleanIdea; window.drawButton(); };
-                            area.appendChild(el);
-                        });
-                        status.textContent = "Click a suggestion to apply it!";
-                        status.style.color = "#2d6a4f";
-                    }
-                } catch (err) {
-                    console.error(err); status.textContent = "Could not generate ideas. Try again."; status.style.color = "#d93025";
-                } finally {
-                    btn.disabled = false;
-                }
-            }
-
-            // Run Init
+            // Run init immediately
             init();
-
         })();
     </script>
 
