@@ -756,7 +756,7 @@
                     const response = await fetch(API_ENDPOINT, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+                        body: JSON.stringify({ contents: [{ parts: [{ text: `You are a UX Microcopy Expert. Generate 6 catchy, high-converting button text options (max 5 words each). Include a relevant emoji at the end of every option. Output ONLY the raw text lines separated by newlines. Context: ${promptText}` }] }] })
                     });
 
                     if (!response.ok) throw new Error("API Error");
