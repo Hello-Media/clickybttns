@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HelloMedia.us | HelloClickyBttns v9 - Custom button generator. Ready in seconds.</title>
+    <title>HelloMedia.us | HelloClickyBttns - Custom button generator. Ready in seconds.</title>
     
     <!-- SEO & Social Sharing Tags -->
     <meta name="description" content="Generate high-converting CTA buttons for Notion, Mailchimp, and websites. Free tool by HelloMedia.us.">
@@ -580,6 +580,7 @@
             const WEBHOOK_URL = ""; 
 
             // --- STATE ---
+            // REVERTED DEFAULT WIDTH to 600
             let currentWidth = 600;
             let currentHeight = 120;
             let currentFontSize = 36; 
@@ -811,8 +812,9 @@
                 window.drawButton();
             }
 
-            window.drawButton = function() {
-                if (!isPremium) {
+            // MODIFIED: Accepts a boolean to decide whether to count as interaction
+            window.drawButton = function(countInteraction = true) {
+                if (countInteraction && !isPremium) {
                     interactionCount++;
                     localStorage.setItem('hcb_interactions', interactionCount);
                 }
@@ -875,6 +877,7 @@
                 localStorage.setItem('hcb_usage', usageCount);
                 updateLockUI(); 
 
+                // Trigger Gate if EITHER limit is hit
                 if ((usageCount > FREE_LIMIT || interactionCount >= INTERACTION_LIMIT)) {
                     window.drawButton(); // Ensure watermark is visible before modal
                     
@@ -886,77 +889,45 @@
                 }
             }
 
-            function performDownload(addWatermark) {
-                if (!addWatermark) {
-                    // Clean redraw
-                    canvas.width = currentWidth;
-                    canvas.height = currentHeight;
-                    ctx.clearRect(0, 0, currentWidth, currentHeight);
-                    
-                    let radius = 0;
-                    if (shapeType === 'rectangle') radius = 0;
-                    if (shapeType === 'rounded') radius = (currentHeight < 120) ? 15 : 30; 
-                    if (shapeType === 'pill') radius = currentHeight / 2;
-                    if (shapeType === 'square') radius = 0; 
-
-                    ctx.fillStyle = bgColorPicker.value;
-                    ctx.beginPath();
-                    ctx.moveTo(radius, 0);
-                    ctx.lineTo(currentWidth - radius, 0);
-                    ctx.quadraticCurveTo(currentWidth, 0, currentWidth, radius);
-                    ctx.lineTo(currentWidth, currentHeight - radius);
-                    ctx.quadraticCurveTo(currentWidth, currentHeight, currentWidth - radius, currentHeight);
-                    ctx.lineTo(radius, currentHeight);
-                    ctx.quadraticCurveTo(0, currentHeight, 0, currentHeight - radius);
-                    ctx.lineTo(0, radius);
-                    ctx.quadraticCurveTo(0, 0, radius, 0);
-                    ctx.closePath();
-                    ctx.fill();
-
-                    ctx.fillStyle = textColorPicker.value;
-                    const maxTextWidth = currentWidth * 0.85; 
-                    let calculatedFontSize = currentFontSize;
-                    ctx.font = `bold ${calculatedFontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI Emoji', 'Apple Color Emoji', 'Segoe UI', Roboto, sans-serif`;
-                    const textWidth = ctx.measureText(input.value).width;
-                    if (textWidth > maxTextWidth) {
-                        const ratio = maxTextWidth / textWidth;
-                        calculatedFontSize = Math.floor(calculatedFontSize * ratio);
-                        if (calculatedFontSize < 8) calculatedFontSize = 8;
-                    }
-                    ctx.font = `bold ${calculatedFontSize}px -apple-system, BlinkMacSystemFont, 'Segoe UI Emoji', 'Apple Color Emoji', 'Segoe UI', Roboto, sans-serif`;
-                    ctx.textAlign = "center";
-                    ctx.textBaseline = "middle";
-                    ctx.fillText(input.value, currentWidth / 2, currentHeight / 2);
-                } else {
-                    window.drawButton(); // Force watermark
-                }
-
-                const link = document.createElement('a');
-                link.download = `HelloClickyBttns-HelloMedia.us-${Date.now()}.png`;
-                link.href = canvas.toDataURL('image/png');
-                link.click();
-
-                setTimeout(window.drawButton, 500);
-            }
-
+            // --- AI CHECK ---
             window.checkAI = function() {
-                if (isPremium) {
-                    checkThrottleAndRun();
-                    return;
+                if (isPremium) { 
+                    checkThrottleAndRun(); 
+                    return; 
                 }
 
-                aiUsageCount++;
-                localStorage.setItem('hcb_ai_usage', aiUsageCount);
+                // AI usage counts as an interaction towards the 100 limit
+                interactionCount += 10; // AI costs 10 "interaction points" (optional, keeps it cleaner)
+                localStorage.setItem('hcb_interactions', interactionCount);
                 updateLockUI();
                 window.drawButton(); 
 
+                // Gate check
                 if ((usageCount >= FREE_LIMIT || interactionCount >= INTERACTION_LIMIT)) {
                     triggerGate('ai');
                 } else {
                     checkThrottleAndRun();
                 }
             }
+            
+            function checkThrottleAndRun() {
+                const now = Date.now();
+                if (now - lastGenTime < 10000) { 
+                    alert("Please wait 10 seconds between generations to prevent API overload.");
+                    return;
+                }
+                lastGenTime = now;
+                generateIdeas();
+            }
 
+            window.triggerGate = function(source) {
+                if (source === 'ai') {
+                    document.getElementById('modalMessage').textContent = "The Writing Helper is a premium feature. Enter your email to unlock it instantly.";
+                    document.getElementById('skipBtn').style.display = 'none'; 
+                    document.getElementById('limitModal').style.display = 'flex';
+                }
+            }
+            
             window.unlockPremium = async function(e) {
                 e.preventDefault();
                 const emailInput = document.getElementById('emailInput');
@@ -986,7 +957,9 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ email: email, source: 'HelloClickyBttns' })
                     });
+                    
                     completeUnlock();
+
                 } catch (err) {
                     console.error(err);
                     alert("Something went wrong. Please try again.");
@@ -994,20 +967,26 @@
                     btn.disabled = false;
                 }
             }
-
+            
             window.skipToWatermark = function() {
                 document.getElementById('limitModal').style.display = 'none';
                 performDownload(true); 
             }
-
+            
             window.closeModal = function() {
                 document.getElementById('limitModal').style.display = 'none';
             }
 
             // --- INIT ---
-            // Calling init functions at end of script execution to ensure definitions are ready
-            // and DOM is parsed (since script is at bottom of body usually, or defer)
-            // But window.onload is safer.
+            function init() {
+                renderThemes();
+                // Initial draw without counting as interaction
+                window.drawButton(false);
+                updateLockUI();
+            }
+            
+            // Run init immediately
+            init();
         })();
     </script>
 
