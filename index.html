@@ -753,13 +753,15 @@
                 status.textContent = "Brainstorming..."; status.style.color = "#666"; area.innerHTML = ''; btn.disabled = true;
 
                 try {
+                    console.log('Sending prompt:', promptText);
                     const response = await fetch(API_ENDPOINT, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ prompt: promptText })
                     });
 
-                    if (!response.ok) throw new Error("API Error");
+                    console.log('Response status:', response.status);
+                    if (!response.ok) throw new Error("API Error: " + response.status);
                     const data = await response.json();
                     console.log('API Response:', JSON.stringify(data, null, 2));
 
