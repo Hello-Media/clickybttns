@@ -744,6 +744,7 @@
             }
 
             async function generateIdeas() {
+                console.log('generateIdeas called');
                 const promptText = document.getElementById('aiPrompt').value.trim();
                 const status = document.getElementById('statusMsg');
                 const area = document.getElementById('suggestionsArea');
