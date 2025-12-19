@@ -776,6 +776,9 @@
                         });
                         status.textContent = "Click a suggestion to apply it!";
                         status.style.color = "#2d6a4f";
+                    } else {
+                        status.textContent = "No ideas returned. Try a different description.";
+                        status.style.color = "#d93025";
                     }
                 } catch (err) {
                     console.error(err); status.textContent = "Could not generate ideas. Try again."; status.style.color = "#d93025";
