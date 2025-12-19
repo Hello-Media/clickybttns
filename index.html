@@ -141,8 +141,9 @@
         .size-control-btn {
             background: transparent;
             border: none;
-            padding: 8px 16px;
-            font-size: 13px;
+            padding: 12px 20px;
+            min-height: 44px;
+            font-size: 14px;
             font-weight: 600;
             color: #555;
             cursor: pointer;
@@ -476,10 +477,6 @@
             let lastGenTime = 0;
 
             const themes = [{ name: 'Classic Blue', bg: '#007aff', text: '#ffffff' }, { name: 'Midnight', bg: '#000000', text: '#ffffff' }, { name: 'Clean', bg: '#ffffff', text: '#000000' }, { name: 'Forest', bg: '#2d6a4f', text: '#d8f3dc' }, { name: 'Sunset', bg: '#e76f51', text: '#ffffff' }, { name: 'Berry', bg: '#8338ec', text: '#ffffff' }, { name: 'Neon', bg: '#ccff33', text: '#000000' }, { name: 'Coral', bg: '#ff6b6b', text: '#ffffff' }];
-
-            window.onload = function() {
-                renderThemes(); drawButton(); updateLockUI();
-            };
 
             window.preventRightClick = function(e) {
                 e.preventDefault();
