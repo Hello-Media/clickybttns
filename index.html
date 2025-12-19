@@ -769,7 +769,7 @@
                     // Check for API errors
                     if (data.error) {
                         if (data.error.code === 429) {
-                            status.textContent = "Too many requests. Please wait a moment and try again.";
+                            status.textContent = "We've reached our daily limit. Please try again later or tomorrow.";
                         } else if (data.error.code === 403) {
                             status.textContent = "Service temporarily unavailable. Please try again later.";
                         } else {
