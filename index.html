@@ -766,6 +766,19 @@
                     const data = await response.json();
                     console.log('API Response:', JSON.stringify(data, null, 2));
 
+                    // Check for API errors
+                    if (data.error) {
+                        if (data.error.code === 429) {
+                            status.textContent = "Too many requests. Please wait a moment and try again.";
+                        } else if (data.error.code === 403) {
+                            status.textContent = "Service temporarily unavailable. Please try again later.";
+                        } else {
+                            status.textContent = "Something went wrong. Please try again.";
+                        }
+                        status.style.color = "#d93025";
+                        return;
+                    }
+
                     const text = data.candidates?.[0]?.content?.parts?.[0]?.text;
 
                     if (text) {
