@@ -490,7 +490,7 @@
                     currentWidth += (wStep * dir);
                     if (currentWidth < 100) currentWidth = 100;
                     currentHeight = currentWidth;
-                    currentFontSize = Math.round(currentWidth * 0.15); 
+                    currentFontSize = Math.round(currentWidth * 0.15);
                 } else {
                     currentWidth += (wStep * dir);
                     currentHeight += (hStep * dir);
@@ -499,6 +499,7 @@
                     if (currentHeight < 40) currentHeight = 40;
                 }
                 if (currentFontSize < 10) currentFontSize = 10;
+                sizeBadge.textContent = `${currentWidth} x ${currentHeight}px`;
                 drawButton();
             }
 
