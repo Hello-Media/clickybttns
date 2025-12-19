@@ -752,11 +752,13 @@
                 if (!promptText) { status.textContent = "Please enter a description first."; return; }
                 status.textContent = "Brainstorming..."; status.style.color = "#666"; area.innerHTML = ''; btn.disabled = true;
 
+                const fullPrompt = `Generate 5 short, catchy button text ideas for a button about: "${promptText}". Return only the button text options, one per line, without numbering or extra explanation.`;
+
                 try {
                     const response = await fetch(API_ENDPOINT, {
                         method: 'POST',
                         headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ contents: [{ parts: [{ text: promptText }] }] })
+                        body: JSON.stringify({ contents: [{ parts: [{ text: fullPrompt }] }] })
                     });
 
                     if (!response.ok) throw new Error("API Error");
